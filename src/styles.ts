@@ -10,7 +10,7 @@ const getOverlayWidth = () => {
 	return reVal;
 };
 
-export const getColorPalette = (theme, accent) => {
+export const getColorPalette = (theme: 'dark' | 'light', accent: string) => {
 	const light = {
 		background: '#fff',
 		text: Platform.OS === 'ios' ? '#3c3c3c' : '#232323',
@@ -26,7 +26,7 @@ export const getColorPalette = (theme, accent) => {
 };
 
 export default StyleSheet.create({
-	container: (opacity) => ({
+	container: {
 		position: 'absolute',
 		top: 0,
 		bottom: 0,
@@ -38,25 +38,9 @@ export default StyleSheet.create({
 		alignItems: 'center',
 
 		backgroundColor: Platform.OS === 'ios' ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.6)',
-		opacity,
-	}),
-
-	activityIndicator: {
-		justifyContent: 'center',
-		alignItems: 'center',
-
-		margin: 10,
 	},
-
-	noContainer: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		width: 0.001,
-		height: 0.001,
-	},
-
-	overlay: (background, hasText) => ({
+	// @ts-ignore
+	overlay: (background: string, hasText: boolean) => ({
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
@@ -79,7 +63,41 @@ export default StyleSheet.create({
 			},
 		}),
 	}),
-	text: (textColor) => ({
+});
+
+export const indicatorStyles = StyleSheet.create({
+	// @ts-ignore
+	container: (hasText: boolean, background: string) => ({
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+		...(hasText ? { width: getOverlayWidth() } : {}),
+
+		paddingHorizontal: hasText ? 14 : 20,
+		paddingVertical: 20,
+
+		...Platform.select({
+			ios: {
+				borderRadius: 18,
+				backgroundColor: 'rgba(255,255,255,0.6)',
+
+				marginBottom: 20,
+			},
+			android: {
+				borderRadius: 4,
+				backgroundColor: background,
+				elevation: 14,
+			},
+		}),
+	}),
+	indicator: {
+		justifyContent: 'center',
+		alignItems: 'center',
+
+		margin: 10,
+	},
+	// @ts-ignore
+	text: (textColor: string) => ({
 		flex: 1,
 
 		marginStart: 12,
