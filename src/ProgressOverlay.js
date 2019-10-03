@@ -13,47 +13,10 @@ import {
 import { BlurView } from '@react-native-community/blur';
 import Timer from 'react-native-timer';
 
-import { getColorPalette } from './assets/colors';
-import styles from './styles';
+import styles, { getColorPalette } from './styles';
 
-interface Props {
-	visible: boolean;
-
-	theme?: 'dark' | 'light';
-	accentColor?: string;
-	size: 'small' | 'large';
-
-	text?: string;
-	textStyle?: any;
-
-	cancellable?: boolean;
-	onCancelTouched?: () => void;
-	touchToCancelText?: string;
-
-	onDismiss?: () => void | false;
-}
-
-interface State {
-	fadeAnimation: Animated.Value;
-	isAnimating: boolean;
-	previousText?: string;
-
-	willCancel: boolean;
-}
-
-class ProgressOverlay extends React.Component<Props, State> {
-	public static defaultProps = {
-		visible: true,
-
-		theme: 'light',
-		accentColor: Platform.OS === 'ios' ? '#007AFF' : '#6200EE',
-
-		type: 'ios',
-		size: 'small',
-		cancellable: false,
-	};
-
-	constructor(props: Props) {
+class ProgressOverlay extends React.Component {
+	constructor(props) {
 		super(props);
 
 		this.state = {
@@ -65,7 +28,7 @@ class ProgressOverlay extends React.Component<Props, State> {
 		};
 	}
 
-	public UNSAFE_componentWillReceiveProps(nextProps: Props) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		const { visible, text, onDismiss } = this.props;
 		const { fadeAnimation } = this.state;
 
@@ -106,12 +69,12 @@ class ProgressOverlay extends React.Component<Props, State> {
 		}
 	}
 
-	public onAndroidBackTouched = () => {
+	onAndroidBackTouched = () => {
 		this.onCancelTouched();
 		return true;
 	};
 
-	public onCancelTouched = () => {
+	onCancelTouched = () => {
 		const { cancellable, onCancelTouched, touchToCancelText = 'Touch again to cancel operation...' } = this.props;
 		if (!cancellable || !onCancelTouched) return;
 
@@ -126,7 +89,7 @@ class ProgressOverlay extends React.Component<Props, State> {
 		}
 	};
 
-	public render() {
+	render() {
 		const { visible, theme, accentColor, size, text, textStyle } = this.props;
 		const { fadeAnimation, isAnimating, previousText } = this.state;
 		const textDisplay = text || previousText;
@@ -135,7 +98,7 @@ class ProgressOverlay extends React.Component<Props, State> {
 			return <View style={styles.noContainer} />;
 		}
 
-		const colorPalette = getColorPalette(theme!, accentColor!);
+		const colorPalette = getColorPalette(theme, accentColor);
 
 		const getIndicator = () =>
 			<ActivityIndicator color={colorPalette.progress} size={size} style={styles.activityIndicator} />;
@@ -147,7 +110,7 @@ class ProgressOverlay extends React.Component<Props, State> {
 
 		const Overlay = Platform.OS === 'ios' ? BlurView : View;
 		const overlayProps = Platform.select({
-			ios: { blurType: theme!, blurAmount: 10 },
+			ios: { blurType: theme, blurAmount: 10 },
 			android: {},
 		});
 
@@ -156,8 +119,6 @@ class ProgressOverlay extends React.Component<Props, State> {
 				<StatusBar networkActivityIndicatorVisible animated barStyle='light-content' />
 				<TouchableWithoutFeedback onPress={this.onCancelTouched}>
 					<Animated.View style={styles.container(fadeAnimation)}>
-						{/*
-						// @ts-ignore */}
 						<Overlay {...overlayProps} style={styles.overlay(colorPalette.background, !!textDisplay)}>
 							{getIndicator()}
 							{getText()}
@@ -168,5 +129,16 @@ class ProgressOverlay extends React.Component<Props, State> {
 		);
 	}
 }
+
+ProgressOverlay.defaultProps = {
+	visible: true,
+
+	theme: 'light',
+	accentColor: Platform.OS === 'ios' ? '#007AFF' : '#6200EE',
+
+	type: 'ios',
+	size: 'small',
+	cancellable: false,
+};
 
 export default ProgressOverlay;
