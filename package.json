@@ -1,0 +1,19 @@
+{
+  "name": "react-native-progress-overlay",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "author": "Yaman KATBY <m.yaman.katby@gmail.com> (https://yaman.idewaxa.com/)",
+  "license": "MIT",
+  "homepage": "https://github.com/yamankatby/react-native-progress-overlay.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yamankatby/react-native-progress-overlay.git"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "build": "rm  -r ./lib && tsc -w"
+  }
+}
