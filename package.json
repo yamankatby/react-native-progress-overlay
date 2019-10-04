@@ -1,0 +1,39 @@
+{
+  "name": "react-native-progress-overlay",
+  "description": "",
+  "version": "1.0.5",
+  "private": false,
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "author": "Yaman KATBY <m.yaman.katby@gmail.com> (https://yaman.idewaxa.com/)",
+  "homepage": "https://github.com/yamankatby/react-native-progress-overlay.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yamankatby/react-native-progress-overlay.git"
+  },
+  "publishConfig": {
+    "registry": "https://www.npmjs.com/package/react-native-progress-overlay"
+  },
+  "keywords": [
+  ],
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "build": "rm  -r ./lib && tsc"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "dependencies": {
+    "react": "^16.10.2",
+    "react-native": "^0.61.2"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.5",
+    "@types/react-native": "^0.60.18",
+    "typescript": "^3.6.3"
+  }
+}
